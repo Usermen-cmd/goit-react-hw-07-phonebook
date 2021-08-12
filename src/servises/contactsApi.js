@@ -3,6 +3,7 @@ const BASE_URL = 'http://localhost:5555/contacts';
 export const getContacts = async () => {
   const promise = await fetch(BASE_URL);
   const data = await promise.json();
+  console.log(data);
   return data;
 };
 

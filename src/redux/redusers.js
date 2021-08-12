@@ -6,6 +6,7 @@ const initState = {
   contacts: [],
   filter: '',
   isLoading: false,
+  error: null,
 };
 
 const contacts = createReducer(initState.contacts, {
@@ -27,8 +28,15 @@ const isLoading = createReducer(initState.isLoading, {
   [addContact.fulfilled]: () => false,
 });
 
+const error = createReducer(initState.error, {
+  [setContacts.rejected]: (_, action) => action,
+  [addContact.rejected]: (_, action) => action,
+  [delContact.rejected]: (_, action) => action,
+});
+
 export const rootReducer = combineReducers({
   contacts,
   filter,
   isLoading,
+  error,
 });
