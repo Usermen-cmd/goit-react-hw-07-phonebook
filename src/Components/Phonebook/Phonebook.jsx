@@ -16,7 +16,8 @@ const Phonebook = () => {
     <div className={css.container}>
       <AddContactForm />
       <FindForm />
-      {isLoading ? <LinearProgress /> : <ContactList />}
+      {isLoading && <LinearProgress style={{ marginTop: '20px' }} />}
+      {!isLoading && <ContactList />}
       <Toaster position="top-right" />
     </div>
   );

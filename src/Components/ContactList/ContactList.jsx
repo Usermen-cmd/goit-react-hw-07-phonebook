@@ -11,6 +11,7 @@ const ContactList = () => {
   const filteredContacts = useSelector(getFiltredContacts);
 
   const hangleContactDelete = id => () => dispatch(delContact(id));
+
   return (
     <>
       <h2 className={css.header}>Your contacts</h2>

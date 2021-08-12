@@ -23,6 +23,8 @@ const filter = createReducer(initState.filter, {
 const isLoading = createReducer(initState.isLoading, {
   [setContacts.pending]: () => true,
   [setContacts.fulfilled]: () => false,
+  [addContact.pending]: () => true,
+  [addContact.fulfilled]: () => false,
 });
 
 export const rootReducer = combineReducers({
