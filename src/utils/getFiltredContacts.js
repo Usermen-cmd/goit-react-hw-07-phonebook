@@ -1,11 +1,7 @@
-import { store } from 'redux/store';
-
-export const getFiltredContacts = data => {
-  if (data) {
-    const filterString = store.getState().filter;
-    console.log(filterString);
-    return data.filter(el =>
-      el.name.toLowerCase().includes(filterString.toLowerCase()),
+export const getFiltredContacts = (contact, string) => {
+  if (contact) {
+    return contact.filter(el =>
+      el.name.toLowerCase().includes(string.toLowerCase()),
     );
   }
   return [];

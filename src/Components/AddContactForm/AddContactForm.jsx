@@ -12,7 +12,7 @@ import { useAddContactMutation } from 'redux/contactApiServise';
 const AddContactForm = () => {
   const [addContact] = useAddContactMutation();
 
-  const onError = debounce(300, error => {
+  const onError = debounce(500, error => {
     toast.error(error);
   });
 

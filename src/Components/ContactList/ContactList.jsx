@@ -3,6 +3,7 @@ import css from './ContactList.module.css';
 //Utils
 import { GoTrashcan } from 'react-icons/go';
 import { getFiltredContacts } from 'utils/getFiltredContacts';
+import { useSelector } from 'react-redux';
 import {
   useGetContactByNameQuery,
   useDeleteContactMutation,
@@ -11,8 +12,9 @@ import {
 const ContactList = () => {
   const { data } = useGetContactByNameQuery();
   const [deleteContact] = useDeleteContactMutation();
+  const filterValue = useSelector(s => s.filter);
 
-  const fitredContacts = getFiltredContacts(data);
+  const fitredContacts = getFiltredContacts(data, filterValue);
 
   const hangleContactDelete = id => () => deleteContact(id);
 
