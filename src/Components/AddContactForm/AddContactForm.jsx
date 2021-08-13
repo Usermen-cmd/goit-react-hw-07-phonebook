@@ -15,7 +15,6 @@ import {
 } from 'redux/contactApiServise';
 
 const AddContactForm = () => {
-  // console.log(useAddContactMutation());
   const { data } = useGetContactQuery();
   const [addContact, { isLoading }] = useAddContactMutation();
   const onError = debounce(500, error => {
@@ -23,7 +22,6 @@ const AddContactForm = () => {
   });
 
   function onSubmit(event, actions) {
-    console.log(event);
     if (hasName(event.name, data)) {
       toast.error('Такой контакт уже есть');
     } else {
