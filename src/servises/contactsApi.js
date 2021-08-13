@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5555/contacts';
+const BASE_URL = 'https://60ae1fea80a61f00173327f3.mockapi.io/contacts';
 
 export const getContacts = async () => {
   const promise = await fetch(BASE_URL);
