@@ -18,6 +18,7 @@
 }
 .button {
   composes: button from 'composesStyles/composes.css';
+  width: 45px;
 }
 .button:hover {
   background-color: var(--hoverBlue);

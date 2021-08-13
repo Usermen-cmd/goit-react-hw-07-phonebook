@@ -9,7 +9,7 @@ export const contactApi = createApi({
   }),
   tagTypes: ['contact'],
   endpoints: builder => ({
-    getContactByName: builder.query({
+    getContact: builder.query({
       query: () => 'contacts',
       providesTags: ['contact'],
     }),
@@ -36,7 +36,7 @@ export const contactApi = createApi({
 });
 
 export const {
-  useGetContactByNameQuery,
+  useGetContactQuery,
   useDeleteContactMutation,
   useAddContactMutation,
 } = contactApi;

@@ -1,16 +1,18 @@
 //Styles
 import css from './ContactList.module.css';
+//Components
+import { LinearProgress } from '@material-ui/core';
 //Utils
 import { GoTrashcan } from 'react-icons/go';
 import { getFiltredContacts } from 'utils/getFiltredContacts';
 import { useSelector } from 'react-redux';
 import {
-  useGetContactByNameQuery,
+  useGetContactQuery,
   useDeleteContactMutation,
 } from 'redux/contactApiServise';
 
 const ContactList = () => {
-  const { data } = useGetContactByNameQuery();
+  const { data, isFetching, isSuccess } = useGetContactQuery();
   const [deleteContact] = useDeleteContactMutation();
   const filterValue = useSelector(s => s.filter);
 
@@ -21,7 +23,8 @@ const ContactList = () => {
   return (
     <>
       <h2 className={css.header}>Your contacts</h2>
-      {fitredContacts && (
+      {isFetching && <LinearProgress style={{ marginTop: '20px' }} />}
+      {isSuccess && (
         <ul className={css.list}>
           {fitredContacts.map(el => {
             return (
@@ -32,6 +35,7 @@ const ContactList = () => {
                   className={css.button}
                   type="button"
                   onClick={hangleContactDelete(el.id)}
+                  disabled={isFetching}
                 >
                   delete
                   <GoTrashcan size="16" />

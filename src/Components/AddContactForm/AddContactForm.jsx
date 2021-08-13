@@ -1,23 +1,30 @@
 //Styles
 import css from './AddContactForm.module.css';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 //Components
 import { Formik, Form, Field } from 'formik';
+import Loader from 'react-loader-spinner';
 //Utils
 import { toast } from 'react-hot-toast';
 import { debounce } from 'throttle-debounce';
 import { hasName } from 'utils/hasName';
 import { schema } from 'utils/validtionSchema';
-import { useAddContactMutation } from 'redux/contactApiServise';
+import {
+  useAddContactMutation,
+  useGetContactQuery,
+} from 'redux/contactApiServise';
 
 const AddContactForm = () => {
-  const [addContact] = useAddContactMutation();
-
+  // console.log(useAddContactMutation());
+  const { data } = useGetContactQuery();
+  const [addContact, { isLoading }] = useAddContactMutation();
   const onError = debounce(500, error => {
     toast.error(error);
   });
 
   function onSubmit(event, actions) {
-    if (hasName(event.name)) {
+    console.log(event);
+    if (hasName(event.name, data)) {
       toast.error('Такой контакт уже есть');
     } else {
       addContact({
@@ -64,8 +71,18 @@ const AddContactForm = () => {
             />
             {touched.tel && errors.tel && onError(errors.tel)}
 
-            <button className={css.button} type="submit">
-              add
+            <button className={css.button} type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <Loader
+                  type="TailSpin"
+                  color="#fff"
+                  height={12}
+                  width={12}
+                  timeout={3000} //3 secs
+                />
+              ) : (
+                'add'
+              )}
             </button>
           </Form>
         )}

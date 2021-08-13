@@ -1,7 +1,4 @@
-import { store } from 'redux/store';
-
-export const hasName = name => {
-  const contacts = store.getState().contacts;
+export const hasName = (name, contacts) => {
   const contactNames = contacts.map(el => el.name);
   return contactNames.includes(name);
 };
