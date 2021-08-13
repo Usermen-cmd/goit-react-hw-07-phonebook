@@ -3,20 +3,14 @@ import css from './AddContactForm.module.css';
 //Components
 import { Formik, Form, Field } from 'formik';
 //Utils
-import { useEffect } from 'react';
-import { addContact, setContacts } from 'redux/operations';
-import { useDispatch } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import { debounce } from 'throttle-debounce';
 import { hasName } from 'utils/hasName';
 import { schema } from 'utils/validtionSchema';
+import { useAddContactMutation } from 'redux/contactApiServise';
 
 const AddContactForm = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setContacts());
-  }, [dispatch]);
+  const [addContact] = useAddContactMutation();
 
   const onError = debounce(300, error => {
     toast.error(error);
@@ -26,11 +20,9 @@ const AddContactForm = () => {
     if (hasName(event.name)) {
       toast.error('Такой контакт уже есть');
     } else {
-      dispatch(
-        addContact({
-          ...event,
-        }),
-      );
+      addContact({
+        ...event,
+      });
       toast.success('Добавлено');
     }
     actions.resetForm();

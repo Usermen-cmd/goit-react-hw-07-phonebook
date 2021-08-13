@@ -1,38 +1,44 @@
 //Styles
 import css from './ContactList.module.css';
 //Utils
-import { useDispatch, useSelector } from 'react-redux';
-import { delContact } from 'redux/operations';
-import { getFiltredContacts } from 'utils/getFiltredContacts';
 import { GoTrashcan } from 'react-icons/go';
+import { getFiltredContacts } from 'utils/getFiltredContacts';
+import {
+  useGetContactByNameQuery,
+  useDeleteContactMutation,
+} from 'redux/contactApiServise';
 
 const ContactList = () => {
-  const dispatch = useDispatch();
-  const filteredContacts = useSelector(getFiltredContacts);
+  const { data } = useGetContactByNameQuery();
+  const [deleteContact] = useDeleteContactMutation();
 
-  const hangleContactDelete = id => () => dispatch(delContact(id));
+  const fitredContacts = getFiltredContacts(data);
+
+  const hangleContactDelete = id => () => deleteContact(id);
 
   return (
     <>
       <h2 className={css.header}>Your contacts</h2>
-      <ul className={css.list}>
-        {filteredContacts.map(el => {
-          return (
-            <li className={css.listItem} key={el.id}>
-              <span>{el.name}</span>
-              <span>{el.tel}</span>
-              <button
-                className={css.button}
-                type="button"
-                onClick={hangleContactDelete(el.id)}
-              >
-                delete
-                <GoTrashcan size="16" />
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      {fitredContacts && (
+        <ul className={css.list}>
+          {fitredContacts.map(el => {
+            return (
+              <li className={css.listItem} key={el.id}>
+                <span>{el.name}</span>
+                <span>{el.tel}</span>
+                <button
+                  className={css.button}
+                  type="button"
+                  onClick={hangleContactDelete(el.id)}
+                >
+                  delete
+                  <GoTrashcan size="16" />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </>
   );
 };
