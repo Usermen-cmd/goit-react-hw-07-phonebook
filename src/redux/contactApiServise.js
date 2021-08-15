@@ -1,6 +1,6 @@
-import { changeFilter } from 'redux/actions';
-import { createReducer, combineReducers } from '@reduxjs/toolkit';
+import { combineReducers } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { filter } from 'redux/redusers';
 
 export const contactApi = createApi({
   reducerPath: 'contactApi',
@@ -41,17 +41,6 @@ export const {
   useDeleteContactMutation,
   useAddContactMutation,
 } = contactApi;
-
-const initState = {
-  contacts: [],
-  filter: '',
-  isLoading: false,
-  error: null,
-};
-
-const filter = createReducer(initState.filter, {
-  [changeFilter]: (_, action) => action.payload,
-});
 
 export const rootReducer = combineReducers({
   filter,

@@ -4,38 +4,30 @@ import css from './ContactList.module.css';
 import { LinearProgress } from '@material-ui/core';
 import { ContactListItem } from 'Components/ContactListItem/ContactListItem';
 //Utils
-// import { GoTrashcan } from 'react-icons/go';
+import { useEffect } from 'react';
 import { getFiltredContacts } from 'utils/getFiltredContacts';
 import { useSelector } from 'react-redux';
-import {
-  useGetContactQuery,
-  useDeleteContactMutation,
-} from 'redux/contactApiServise';
+import { useGetContactQuery } from 'redux/contactApiServise';
+import toast from 'react-hot-toast';
+import { getFilterValue } from 'redux/selectors';
 
 const ContactList = () => {
-  console.log(useDeleteContactMutation());
-  const { data, isFetching } = useGetContactQuery();
-  const [deleteContact, { isLoading }] = useDeleteContactMutation();
-  const filterValue = useSelector(s => s.filter);
-
+  const { data, isFetching, error } = useGetContactQuery();
+  const filterValue = useSelector(getFilterValue);
   const fitredContacts = getFiltredContacts(data, filterValue);
 
-  const hangleContactDelete = id => () => deleteContact(id);
+  useEffect(() => {
+    error &&
+      toast.error(`Возникла ошибка ${error.status}, сообщение ${error.data}`);
+  }, [error]);
 
   return (
     <>
       <h2 className={css.header}>Your contacts</h2>
       {isFetching && <LinearProgress style={{ marginTop: '20px' }} />}
       <ul className={css.list}>
-        {fitredContacts.map(el => {
-          return (
-            <ContactListItem
-              data={el}
-              hangleContactDelete={hangleContactDelete}
-              isLoading={isLoading}
-              key={el.id}
-            />
-          );
+        {fitredContacts.map(contact => {
+          return <ContactListItem contact={contact} key={contact.id} />;
         })}
       </ul>
     </>

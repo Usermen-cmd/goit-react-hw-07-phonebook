@@ -5,6 +5,7 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { Formik, Form, Field } from 'formik';
 import Loader from 'react-loader-spinner';
 //Utils
+import { useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { debounce } from 'throttle-debounce';
 import { hasName } from 'utils/hasName';
@@ -16,7 +17,13 @@ import {
 
 const AddContactForm = () => {
   const { data } = useGetContactQuery();
-  const [addContact, { isLoading }] = useAddContactMutation();
+  const [addContact, { isLoading, error }] = useAddContactMutation();
+
+  useEffect(() => {
+    error &&
+      toast.error(`Возникла ошибка ${error.status}, сообщение ${error.data}`);
+  }, [error]);
+
   const onError = debounce(500, error => {
     toast.error(error);
   });
