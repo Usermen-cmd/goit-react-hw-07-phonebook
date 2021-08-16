@@ -132,3 +132,4 @@ netlify.toml
 .husky
 .netlify
 6
+json-server.json
